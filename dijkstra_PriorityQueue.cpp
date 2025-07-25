@@ -26,27 +26,28 @@ void dijkstra(int start)
     dist.assign(N + 1, INF);
     parent.assign(N + 1, -1);
     dist[start] = 0;
-    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> pq; // {dist, node}
+
+    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> pq;  // {distance, node}
     pq.push({ 0, start });
 
     while (!pq.empty())
     {
-        int cost = pq.top().first;
+        int currDist = pq.top().first;
         int curr = pq.top().second;
         pq.pop();
 
-        if (dist[curr] < cost) continue;
+        if (dist[curr] < currDist) continue;
 
         for (auto& next : graph[curr])
         {
-            int ed = next.first;
-            int ed_dist = next.second;
+            int nextNode = next.first;
+            int nextDist = next.second;
 
-            if (dist[ed] > dist[curr] + ed_dist)
+            if (dist[nextNode] > dist[curr] + nextDist)
             {
-                dist[ed] = dist[curr] + ed_dist;
-                pq.push({ dist[ed], ed });
-                parent[ed] = curr;
+                dist[nextNode] = dist[curr] + nextDist;
+                parent[nextNode] = curr;
+                pq.push({ dist[nextNode], nextNode });
             }
         }
     }
@@ -54,22 +55,26 @@ void dijkstra(int start)
 
 int main()
 {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
 
     cin >> N >> M;
     graph.resize(N + 1);
 
     for (int i = 0; i < M; i++)
     {
-        int st, ed, cost;
-        cin >> st >> ed >> cost;
-        graph[st].push_back({ ed, cost });
+        int st, ed, w;
+        cin >> st >> ed >> w;
+        graph[st].push_back({ ed, w });
+        graph[ed].push_back({ st, w });  // undirected graph
     }
 
-    int start, end; cin >> start >> end;
+    int start, end;
+    cin >> start >> end;
 
     dijkstra(start);
-
     printPath(end);
+    cout << '\n';
 
     return 0;
 }
