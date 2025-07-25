@@ -37,6 +37,7 @@ int main()
 	{
 		int st, ed, w; cin >> st >> ed >> w;
 		graph[st][ed] = w;
+		graph[ed][st] = w; // for undirected graph
 	}
 
 	int start, end; cin >> start >> end;
