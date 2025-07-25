@@ -66,7 +66,7 @@ int main()
         int st, ed, w;
         cin >> st >> ed >> w;
         graph[st].push_back({ ed, w });
-        graph[ed].push_back({ st, w });  // undirected graph
+        graph[ed].push_back({ st, w });  // for undirected graph
     }
 
     int start, end;
